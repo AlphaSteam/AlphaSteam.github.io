@@ -1,0 +1,15 @@
+{
+  "name": "AlphaSteam.github.io",
+  "version": "1.0.0",
+  "main": "index.html",
+  "repository": "https://github.com/AlphaSteam/AlphaSteam.github.io",
+  "author": "AlphaSteam <sebastian.alfaro@ing.uchile.cl>",
+  "license": "MIT",
+  "devDependencies": {
+    "parcel": "^2.0.0-beta.1"
+  },
+  "dependencies": {
+    "jquery": "^3.5.1",
+    "three": "^0.118.3"
+  }
+}
