@@ -1,11 +1,11 @@
 
-import * as THREE from './three';
+import * as THREE from 'three';
 
-import Stats from './three/examples/jsm/libs/stats.module.js';
+import Stats from 'three/examples/jsm/libs/stats.module.js';
 
-import { GUI } from './three/examples/jsm/libs/dat.gui.module.js';
-import { OrbitControls } from './three/examples/jsm/controls/OrbitControls.js';
-import jQuery from "./jquery";
+import { GUI } from 'three/examples/jsm/libs/dat.gui.module.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import jQuery from "jquery";
 window.$ = window.jQuery = jQuery;
 
 var stats = new Stats();
@@ -323,7 +323,7 @@ void main() {
         lastTime = currentTime;
         this.uniforms.scale.value = controls.Scale;
         this.uniforms.u_time.value +=controls.Speed;
-        this.uniforms.u_mouse.value = new Vector2(interpoint.x, interpoint.y);
+        this.uniforms.u_mouse.value = new THREE.Vector2(interpoint.x, interpoint.y);
         this.uniforms.dotSize.value =controls.dotSize;
         this.uniforms.showIso.value = controls.Draw_isolines;
         this.uniforms.showCenter.value= controls.Draw_cell_center;
