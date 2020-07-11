@@ -20,6 +20,9 @@ var controls = new function () {
     this.Draw_cell_center = true;
     this.Draw_grid = false;
 
+    this.Mouse_interaction = false;
+    this.Mouse_scale = 1.0;
+
     this.Intensity_control_x = 0.19;
     this.Intensity_control_y = 0.15;
 
@@ -95,13 +98,6 @@ var DEMO = {
         this.ms_Controls.minPolarAngle = 0;
         this.ms_Controls.maxPolarAngle = Math.PI * 0.495;
 
-        var gsize = 512;
-        var res = 1024;
-        var gres = res / 2;
-        var origx = - gsize / 2;
-        var origz = - gsize / 2;
-        var size = 0.75;
-        var geometry2 = new THREE.BoxBufferGeometry(0.75,0.75,0.75);
         // geometry
         var width = 4;  // width of plane in world units
         var height = 4; // height of plane in world units
@@ -135,7 +131,9 @@ var DEMO = {
             rColor:{value: new THREE.Vector2(controls.Red_x,controls.Red_y)},
             gColor:{value: new THREE.Vector2(controls.Green_x,controls.Green_y)},
             bColor:{value: new THREE.Vector2(controls.Blue_x,controls.Blue_y)},
-            IntensityControl: {value: new THREE.Vector2(controls.Intensity_control_x,controls.Intensity_control_y)}
+            IntensityControl: {value: new THREE.Vector2(controls.Intensity_control_x,controls.Intensity_control_y)},
+            mouseInteraction:{value: controls.Mouse_interaction},
+            mouseScale:{value: controls.Mouse_scale}
 
 
         }
@@ -190,6 +188,9 @@ uniform vec2 bColor;
 
 uniform vec2 IntensityControl;
 
+uniform float mouseScale;
+uniform bool mouseInteraction;
+
 varying vec2 vUv;
 varying vec3 vnormal;
 varying vec3 vposition;
@@ -207,6 +208,7 @@ void main() {
     
     vec3 color = vec3(.0);
     st *= scale ;
+    st2/=mouseScale;
     
 
     // Tile the space
@@ -215,7 +217,7 @@ void main() {
 
     float m_dist = minimumDist;  // minimum distance
     vec2 m_point;        // minimum point
-	vec2 point2 =u_mouse;
+	vec2 point2 =u_mouse/mouseScale;
     for (int j=-1; j<=1; j++ ) {
         for (int i=-1; i<=1; i++ ) {
             vec2 neighbor = vec2(float(i),float(j));
@@ -230,20 +232,24 @@ void main() {
             }
         }
     }	
-    float dist = distance(st2, point2);
-    if ( dist < m_dist ) {
-        // Keep the closer distance
-        m_dist = dist;
-    
-        // Kepp the position of the closer point
-        m_point = point2;
+    if(mouseInteraction){
+        float dist = distance(st2, point2);
+        if ( dist < m_dist ) {
+            // Keep the closer distance
+            m_dist = dist;
+        
+            // Kepp the position of the closer point
+            m_point = point2;
+        }
+        
+
     }
-	vec3 aura = auraColor*m_dist*auraIntensity;
-    color+=aura;
-    color.r += dot(m_point,rColor);
-    color.g += dot(m_point,gColor);
-    color.b += dot(m_point,bColor);
-    color += dot(m_point,IntensityControl);
+    vec3 aura = auraColor*m_dist*auraIntensity;
+        color+=aura;
+        color.r += dot(m_point,rColor);
+        color.g += dot(m_point,gColor);
+        color.b += dot(m_point,bColor);
+        color += dot(m_point,IntensityControl);
 	
     
 
@@ -292,9 +298,13 @@ void main() {
         intensityf.add(controls,'Intensity_control_x',-1,1);
         intensityf.add(controls,'Intensity_control_y',-1,1);
 
+        var auraf = gui.addFolder('Aura');
+        auraf.addColor(controls,'Aura_color');
+        auraf.add(controls,'Aura_intensity',-2,2);
 
-        gui.addColor(controls,'Aura_color');
-        gui.add(controls,'Aura_intensity',-2,2);
+        var mousef = gui.addFolder('Mouse');
+        mousef.add(controls,"Mouse_interaction");
+        mousef.add(controls,"Mouse_scale",0.1,4);
 
         gui.add(controls, 'Speed', 0, 0.25);
         gui.add(controls, 'Scale',0.5,20);
@@ -335,6 +345,8 @@ void main() {
         this.uniforms.gColor.value = new THREE.Vector2(controls.Green_x,controls.Green_y);
         this.uniforms.bColor.value = new THREE.Vector2(controls.Blue_x,controls.Blue_y);
         this.uniforms.IntensityControl.value = new THREE.Vector2(controls.Intensity_control_x,controls.Intensity_control_y);
+        this.uniforms.mouseInteraction.value = controls.Mouse_interaction;
+        this.uniforms.mouseScale.value = controls.Mouse_scale;
         
         this.Display();
 
