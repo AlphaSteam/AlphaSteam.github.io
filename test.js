@@ -1,12 +1,11 @@
 
-import * as THREE from 'three';
+import * as THREE from './three';
 
-import Stats from 'three/examples/jsm/libs/stats.module.js';
+import Stats from './three/examples/jsm/libs/stats.module.js';
 
-import { GUI } from 'three/examples/jsm/libs/dat.gui.module.js';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { Vector2, WebGLMultisampleRenderTarget } from 'three';
-import jQuery from "jquery";
+import { GUI } from './three/examples/jsm/libs/dat.gui.module.js';
+import { OrbitControls } from './three/examples/jsm/controls/OrbitControls.js';
+import jQuery from "./jquery";
 window.$ = window.jQuery = jQuery;
 
 var stats = new Stats();
