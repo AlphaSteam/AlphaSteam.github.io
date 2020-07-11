@@ -5856,6 +5856,11 @@ terser@^4.3.0, terser@^4.3.9:
     source-map "~0.6.1"
     source-map-support "~0.5.12"
 
+three-dat.gui@^2.0.7:
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/three-dat.gui/-/three-dat.gui-2.0.7.tgz#9f2fc7dadebad99b335da660e33c3562dd10c80d"
+  integrity sha512-u+uRJF3BxY6O1JnRwjGVNdBvvmyaHG5/92RrvILtZclblAUda0ZcfUOXwWbr+hzPZYgJT5HykayjSyATdBQvUw==
+
 three@^0.118.3:
   version "0.118.3"
   resolved "https://registry.yarnpkg.com/three/-/three-0.118.3.tgz#c0bf8c10a68155478f12f4ccac2ff979526a4a0a"
